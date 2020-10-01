@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = stanza_wrapper
+SPHINXPROJ    = e2e_wrapper
 SOURCEDIR     = .
 BUILDDIR      = _build
 

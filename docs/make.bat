@@ -9,7 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=.
 set BUILDDIR=_build
-set SPHINXPROJ=stanza_wrapper
+set SPHINXPROJ=e2e_wrapper
 
 if "%1" == "" goto help
 

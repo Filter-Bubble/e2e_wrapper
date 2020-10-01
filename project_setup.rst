@@ -15,7 +15,7 @@ We recommend using `git <http://git-scm.com/>`_ and `github <https://github.com/
 
 .. code-block:: console
 
-  cd stanza_wrapper
+  cd e2e_wrapper
   git init
   git add -A
   git commit
@@ -65,7 +65,7 @@ Testing and code coverage
 * Tests should be put in the ``tests`` folder.
 * The ``tests`` folder contains:
 
-  - Example tests that you should replace with your own meaningful tests (file: ``test_stanza_wrapper``)
+  - Example tests that you should replace with your own meaningful tests (file: ``test_e2e_wrapper``)
   - A test that checks whether your code conforms to the Python style guide (PEP 8) (file: ``test_lint.py``)
 
 * The testing framework used is `PyTest <https://pytest.org>`_
@@ -121,7 +121,7 @@ Package version number
 ----------------------
 
 * We recommend using `semantic versioning <https://guide.esciencecenter.nl/best_practices/releases.html#semantic-versioning>`_.
-* For convenience, the package version is stored in a single place: ``stanza_wrapper/__version__.py``. For updating the version number, you only have to change this file.
+* For convenience, the package version is stored in a single place: ``e2e_wrapper/__version__.py``. For updating the version number, you only have to change this file.
 * Don't forget to update the version number before `making a release <https://guide.esciencecenter.nl/best_practices/releases.html>`_!
 
 

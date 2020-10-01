@@ -1,21 +1,23 @@
-.. image:: https://travis-ci.com/Filter-Bubble/standfordnlp_wrapper.svg?branch=master
-    :target: https://travis-ci.com/Filter-Bubble/standfordnlp_wrapper
+.. image:: https://travis-ci.com/Filter-Bubble/e2e_wrapper.svg?branch=master
+    :target: https://travis-ci.com/Filter-Bubble/e2e_wrapper
 ################################################################################
-stanza wrapper for NAF files
+e2e wrapper for NAF files
 ################################################################################
 
-This is a wrapper around `stanza <https://stanza.github.io/stanza/index.html>`_ that produces `NAF files <http://wordpress.let.vupr.nl/naf/>`_ with morphosyntactic information. It is designed to use as a component in the `NewsReader pipeline <https://vu-rm-pip3.readthedocs.io/en/latest/home.html>`__. Ït currently only works for Dutch.
+This is a wrapper around `e2e-Dutch <https://github.com/Filter-Bubble/e2e-Dutch>`_ that produces `NAF files <http://wordpress.let.vupr.nl/naf/>`_
+with coreference.
+It is designed to use as a component in the `NewsReader pipeline <https://vu-rm-pip3.readthedocs.io/en/latest/home.html>`__. Ït currently only works for Dutch.
 
 
 Installation
 ------------
 
-To install stanza_wrapper, do:
+To install e2e_wrapper, do:
 
 .. code-block:: console
 
-  git clone https://github.com/Filter-Bubble/stanza_wrapper.git
-  cd stanza_wrapper
+  git clone https://github.com/Filter-Bubble/e2e_wrapper.git
+  cd e2e_wrapper
   pip install .
 
 
@@ -31,7 +33,7 @@ Run tests (including coverage) with:
 Contributing
 ************
 
-If you want to contribute to the development of stanza wrapper for NAF files,
+If you want to contribute to the development of e2e wrapper for NAF files,
 have a look at the `contribution guidelines <CONTRIBUTING.rst>`_.
 
 License

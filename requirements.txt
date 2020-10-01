@@ -1,2 +1,3 @@
 KafNafParserPy
-stanza
+# e2e_dutch
+tensorflow

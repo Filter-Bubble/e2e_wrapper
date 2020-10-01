@@ -6,9 +6,9 @@ python:
   - "3.7"
 
 # command to install dependencies
+# To do: install e2e-Dutch
 install:
   - pip install -r requirements.txt
-  - python -c 'import stanza; stanza.download("nl")'
 
 # command to run tests
 script: python setup.py test

@@ -3,7 +3,7 @@
 import logging
 
 from .__version__ import __version__
-from .stanza_wrapper import parse, get_naf
+from .e2e_wrapper import parse, get_naf
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 

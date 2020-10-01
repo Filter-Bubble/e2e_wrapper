@@ -6,29 +6,29 @@ from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-# To update the package version number, edit stanza_wrapper/__version__.py
+# To update the package version number, edit e2e_wrapper/__version__.py
 version = {}
-with open(os.path.join(here, 'stanza_wrapper', '__version__.py')) as f:
+with open(os.path.join(here, 'e2e_wrapper', '__version__.py')) as f:
     exec(f.read(), version)
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 setup(
-    name='stanza_wrapper',
+    name='e2e_wrapper',
     version=version['__version__'],
     description="",
     long_description=readme + '\n\n',
     author="Dafne van Kuppevelt",
     author_email='d.vankuppevelt@esciencecenter.nl',
-    url='https://github.com/Filter-Bubble/stanza_wrapper',
+    url='https://github.com/Filter-Bubble/e2e_wrapper',
     packages=[
-        'stanza_wrapper',
+        'e2e_wrapper',
     ],
     include_package_data=True,
     license="Apache Software License 2.0",
     zip_safe=False,
-    keywords='stanza_wrapper',
+    keywords='e2e_wrapper',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -40,7 +40,7 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     test_suite='tests',
-    install_requires=['KafNafParserPy', 'stanza'],
+    install_requires=['KafNafParserPy'],
     setup_requires=[
         # dependency for `python setup.py test`
         'pytest-runner',
