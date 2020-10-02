@@ -12,11 +12,13 @@ from . import parse, __version__
 #     # python2: sys.stdin contains bytes (aka 'str)
 #     input_file = sys.stdin
 
-parser = argparse.ArgumentParser(description='Morphosyntactic parser based on stanza')
+parser = argparse.ArgumentParser(description='Coreference resolution using e2e')
 parser.add_argument("--verbose", "-v", help="Verbose output", action="store_true")
 parser.add_argument('-V', '--version', action='version', version="{} ({})".format(__name__, __version__))
-parser.add_argument('--treebank', type=str, dest='treebank', help='Treebank to use')
+parser.add_argument('--model_name', '-m', type=str, default='best')
+parser.add_argument('cfg_file', type=str)
 parser.add_argument('input_file', nargs='?', type=argparse.FileType('rb'), default=sys.stdin.buffer)
+
 
 args = parser.parse_args()
 
@@ -26,7 +28,7 @@ logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
 # Mute output
 stdout = io.StringIO()
 sys.stdout = stdout
-in_obj = parse(args.input_file, treebank=args.treebank)
+in_obj = parse(args.input_file, args.cfg_file, args.model_name)
 sys.stdout = sys.__stdout__
 logging.info(stdout.getvalue())
 in_obj.dump()

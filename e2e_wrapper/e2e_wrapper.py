@@ -8,10 +8,13 @@ from KafNafParserPy import KafNafParser
 from lxml.etree import XMLSyntaxError
 from io import BytesIO
 import sys
-from itertools import groupby
+import itertools
+from lxml import etree
 from operator import itemgetter
 from xml.sax.saxutils import escape
-import tensorflow as tf
+import json
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 logger = logging.getLogger(__name__)
 this_name = 'Coreference resolution based on e2e model'
@@ -62,7 +65,15 @@ def create_text_layer(st_doc, knaf_obj):
     return id_to_tokenid
 
 
-def create_coref_layer(knaf_obj):
+def create_coref_layer(knaf_obj, clusters, term_ids):
+    term_ids_list = list(itertools.chain.from_iterable(term_ids))
+    for cluster_id, cluster in enumerate(clusters):
+        coref_obj = KafNafParserPy.Ccoreference(type=knaf_obj.get_type())
+        coref_obj.set_id('co{}'.format(cluster_id+1))
+        coref_obj.set_type('entity')
+        for start, end in cluster:
+            coref_obj.add_span(term_ids_list[start:end])
+        knaf_obj.add_coreference(coref_obj)
     return knaf_obj
 
 
@@ -79,9 +90,28 @@ def add_linguistic_processors(in_obj):
     return in_obj
 
 def get_jsonlines(knaf_obj):
-    jsonlines_obj = []
-    # TODO
-    return jsonlines_obj
+    sent_term_tok = []
+
+    for term in knaf_obj.get_terms():
+        for tok_id in term.get_span_ids():
+            tok = knaf_obj.get_token(tok_id)
+            sent_term_tok.append((tok.get_sent(), term.get_id(), tok_id, tok.get_text()))
+
+    sentences = []
+    term_ids = []
+    tok_ids = []
+    for sent_id, idlist in itertools.groupby(sent_term_tok, lambda t: t[0]):
+        idlist = list(idlist)
+        sentences.append([t[3] for t in idlist])
+        term_ids.append([t[1] for t in idlist])
+        tok_ids.append([t[2] for t in idlist])
+
+    jsonlines_obj = {'doc_key': str(knaf_obj.get_filename()),
+                          'sentences': sentences,
+                          'clusters': []
+                          }
+    return jsonlines_obj, term_ids, tok_ids
+
 
 def parse(input_file, cfg_file, model_name='best'):
     if isinstance(input_file, KafNafParser):
@@ -89,7 +119,7 @@ def parse(input_file, cfg_file, model_name='best'):
     else:
         knaf_obj = get_naf(input_file)
 
-    jsonlines_obj = get_jsonlines(knaf_obj)
+    jsonlines_obj, term_ids, tok_ids = get_jsonlines(knaf_obj)
 
     lang = knaf_obj.get_language()
     if lang != 'nl':
@@ -110,13 +140,10 @@ def parse(input_file, cfg_file, model_name='best'):
             model.predictions, feed_dict=feed_dict)
         predicted_antecedents = model.get_predicted_antecedents(
             top_antecedents, top_antecedent_scores)
-        jsonlines_obj["predicted_clusters"], _ = model.get_predicted_clusters(
+        predicted_clusters, _ = model.get_predicted_clusters(
             top_span_starts, top_span_ends, predicted_antecedents)
-        # TODO convert back to knaf
+        jsonlines_obj["predicted_clusters"] = predicted_clusters
+        create_coref_layer(knaf_obj, jsonlines_obj["predicted_clusters"], term_ids)
 
-
-
-
-
-    in_obj = add_linguistic_processors(in_obj)
-    return in_obj
+    knaf_obj = add_linguistic_processors(knaf_obj)
+    return knaf_obj
